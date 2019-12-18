@@ -1,2 +1,8 @@
 more abc.txt | python readosfile.py | sort | reduce.py
 execute above cmd in command prompt. It will give basic idea of map reduce workflow
+Basically mapper programe read data from sys.stdin (system enviroment) then do the processing like assign a count as 1 to each word.
+then reducer takes the sorted output of mapper from sys.stdin and then process it. 
+finally result are written into the console output.
+
+In summary: data is taken from sys.stdin here in above example we are passing abc.txt file as system input to mapper file readosfile.
+Then output is sorted by sort key and finally reducer gets these data and process to count the number of each word.
