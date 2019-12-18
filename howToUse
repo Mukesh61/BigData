@@ -1,0 +1,2 @@
+more abc.txt | python readosfile.py | sort | reduce.py
+execute above cmd in command prompt. It will give basic idea of map reduce workflow
