@@ -1,0 +1,14 @@
+"""
+Use boto3 to read file from s3.
+There is no difference between reading json and txt file only one additional thing we need to do json.loads for json file.
+"""
+import boto3
+s3 = boto3.resource('s3')
+
+bucketname = 'bucket_name'
+itemname = 'folder_name/data_2020_10_10.txt'
+
+obj = s3.Object(bucketname, itemname)
+body = obj.get()['Body'].read()
+
+print(body)
