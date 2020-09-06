@@ -1,0 +1,37 @@
+import s3fs
+import pandas as pd
+import os
+import site
+import importlib
+import numpy as np
+from setuptools.command import easy_install
+install_path = os.environ['GLUE_INSTALLATION']
+
+libraries = ["pyarrow"]
+for lib in libraries:
+    easy_install.main( ["--install-dir", install_path, lib] )
+
+importlib.reload(site)
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+
+
+from s3fs import S3FileSystem
+s3 = S3FileSystem()
+output_file = "s3://bucket_name/Output/test_aws.parquet"
+output_file1 = "s3://bucket_name/Refined/test_aws"
+dataset = pq.ParquetDataset(output_file,filesystem =s3)
+
+df = dataset.read_pandas().to_pandas()
+
+#Passing schema to parquet file
+fields = [pa.field('A', pa.int64()),pa.field('B', pa.int64()),pa.field('C', pa.int64()),pa.field('D', pa.int64())]
+my_schema = pa.schema(fields)
+
+table = pa.Table.from_pandas(df,schema=my_schema, preserve_index=False)
+
+print(table)
+print("table creation is done, Boss!")
+pq.write_to_dataset(table=table,root_path=output_file1,filesystem=s3) 
+print("file creation is done, Boss!")
