@@ -24,7 +24,7 @@ import pyarrow.parquet as pq
 
 from s3fs import S3FileSystem
 s3 = S3FileSystem()
-output_file = "s3://test-pub-redshift/Output/test_aws.parquet"
+output_file = "s3://bucket_name/Output/test_aws.parquet"
 dataset = pq.ParquetDataset(output_file,filesystem =s3)
 
 df = dataset.read_pandas().to_pandas()
