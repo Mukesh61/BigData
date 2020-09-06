@@ -1,0 +1,31 @@
+"""
+pass s3fs egg file in python shell "Python library path" to install in run time
+we are using pip install for pyarrow, you can download egg file/whl file and pass to "Python library path" 
+multiple path can be passed in "Python library path" using , separated 
+"""
+import s3fs
+import pandas as pd
+import os
+import site
+import importlib
+import numpy as np
+from setuptools.command import easy_install
+install_path = os.environ['GLUE_INSTALLATION']
+
+libraries = ["pyarrow"]
+for lib in libraries:
+    easy_install.main( ["--install-dir", install_path, lib] )
+
+importlib.reload(site)
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+
+
+from s3fs import S3FileSystem
+s3 = S3FileSystem()
+output_file = "s3://test-pub-redshift/Output/test_aws.parquet"
+dataset = pq.ParquetDataset(output_file,filesystem =s3)
+
+df = dataset.read_pandas().to_pandas()
+print(df)
