@@ -1,0 +1,47 @@
+import logging
+import pip
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+if __name__ == '__main__':
+    logger.info(pip._internal.main(['list']))
+    
+    
+    
+"""
+Package Version
+------------------- ----------
+appdirs 1.4.3
+awscli 1.16.242
+boto3 1.9.203
+botocore 1.12.232
+certifi 2020.4.5.1
+chardet 3.0.4
+colorama 0.3.9
+distlib 0.3.0
+docutils 0.15.2
+filelock 3.0.12
+idna 2.8
+importlib-metadata 1.6.0
+importlib-resources 1.4.0
+jmespath 0.9.5
+numpy 1.16.2
+pandas 0.24.2
+pip 20.0.2
+pyasn1 0.4.8
+PyGreSQL 5.0.6
+python-dateutil 2.8.1
+pytz 2019.3
+PyYAML 5.2
+requests 2.22.0
+rsa 3.4.2
+s3transfer 0.2.1
+scikit-learn 0.20.3
+scipy 1.2.1
+setuptools 46.1.3
+six 1.14.0
+urllib3 1.25.8
+virtualenv 20.0.17
+wheel 0.34.2
+zipp 3.1.0
+"""
