@@ -1,0 +1,4 @@
+tar -xvzf C:\PATH\TO\FILE\FILE-NAME.tar.gz -C C:\PATH\TO\FOLDER\EXTRACTION
+
+python setup.py bdist_egg
+python setup.py bdist_wheel
