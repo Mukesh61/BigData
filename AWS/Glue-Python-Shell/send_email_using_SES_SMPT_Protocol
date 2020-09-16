@@ -1,0 +1,95 @@
+""" We need to do some setup before using SES (Simple Email Service) AWS service
+1.  Verify your sender and reciever mail id in Email Addresses by "verify a new email address"
+    It will send a mail to email id, reciever need to verify it.
+2. you can create a configuration set if you want, basically it will help in sending status to cloudwatch, sns or Firehose
+3. Go to SMTP setting and create SMTP credential , make sure to download or copy to a secure location. Once closed you cannot see it again.
+4. There will be two kind of email body format, if reciever doesn't have html enable then he can see the text body of email.
+
+With above steps you are good to Go. 
+
+"""
+import boto3
+from botocore.exceptions import ClientError
+
+# just change abc@gmail.com to any other email address, keep <> in code
+
+SENDER = "Mr. A <abc@gmail.com>"
+
+#change recipient email address
+RECIPIENT = "xyz@gmail.com"
+AWS_REGION = "us-east-2"
+SUBJECT = "Amazon SES Test "
+
+# Specify a configuration set. If you do not want to use a configuration
+# set, comment the following variable, and the 
+# ConfigurationSetName=CONFIGURATION_SET argument below.
+#CONFIGURATION_SET = "ConfigSet"
+
+
+# The email body for recipients with non-HTML email clients.
+BODY_TEXT = ("Amazon SES Test (Python)\r\n"
+             "This email was sent with Amazon SES using the "
+             "AWS SDK for Python (Boto)."
+            )
+            
+# The HTML body of the email.
+BODY_HTML = """<html>
+<head></head>
+<body>
+  <h1>Happy Birthday to you!!!</h1>
+  <p>Happy Birthday to you, 
+     Many Many return of the day.</p>
+</body>
+</html>
+            """            
+
+# The character encoding for the email.
+CHARSET = "UTF-8"
+
+# Create a new SES resource and specify a region.
+client = boto3.client('ses',region_name=AWS_REGION)
+
+# Try to send the email.
+def send_mail_to_me():
+    try:
+        #Provide the contents of the email.
+        response = client.send_email(
+            Destination={
+                'ToAddresses': [
+                    RECIPIENT,
+                ],
+            },
+            Message={
+                'Body': {
+                    'Html': {
+                        'Charset': CHARSET,
+                        'Data': BODY_HTML,
+                    },
+                    'Text': {
+                        'Charset': CHARSET,
+                        'Data': BODY_TEXT,
+                    },
+                },
+                'Subject': {
+                    'Charset': CHARSET,
+                    'Data': SUBJECT,
+                },
+            },
+            Source=SENDER
+            #ConfigurationSetName=CONFIGURATION_SET,
+        )
+        
+    # Display an error if something goes wrong.	
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        print("Email sent! Message ID:"),
+        print(response['MessageId'])
+        
+        
+try:
+    a = 1
+    a = a/0
+except:
+    send_mail_to_me()
+    print("It got failed")
