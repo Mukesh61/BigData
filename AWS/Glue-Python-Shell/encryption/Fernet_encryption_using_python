@@ -1,0 +1,38 @@
+"""
+In order to use below encryption method we need to first generate encryption key then we can use that key to encrypt message, finally decrypt same message with that key
+1. generate key
+2. encrypt message 
+3. decrypt message 
+
+Easy one, right!!!😜
+"""
+import os
+import site
+import importlib
+from setuptools.command import easy_install
+install_path = os.environ['GLUE_INSTALLATION']
+
+libraries = ["cryptography"]
+for lib in libraries:
+    easy_install.main( ["--install-dir", install_path, lib] )
+
+importlib.reload(site)
+
+from cryptography.fernet import Fernet
+#key = Fernet.generate_key()
+print("your key is availabe below:")
+#print(key)
+key =b'Nbb3xI2YNDx2BNB98obxnI18Y0OgVStNfYqongXoMjI='
+
+message = "message I want to encrypt".encode()
+f = Fernet(key)
+
+#encrypt message using below method
+#encrypted_message = f.encrypt(message)
+
+#print("your encrypted message below")
+#print(encrypted_message)
+e_message = b'gAAAAABfY9MGloxk5spsozHT7GwnoehXUn9yoOpKejQqRsxzYBRIbLjMKHtXMajkvrvbhw6lAOKwBerFt3bMmz7VOQWM1kTytRPC2yhYm80BPP23Q55q8w4='
+
+decrypted_message = f.decrypt(e_message)
+print(decrypted_message.decode())
