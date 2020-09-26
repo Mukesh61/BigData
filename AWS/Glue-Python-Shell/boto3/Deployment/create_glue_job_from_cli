@@ -1,0 +1,6 @@
+"""
+You will face some issue with single quote when passing json data to see the problem need to run the aws cli command with --debug
+
+"""
+
+aws glue create-job --name python-redshift-mukesh-test1 --role AWSGlueServiceRole-Glueuser --command Name="pythonshell",ScriptLocation="s3://bucket_name/Refined/read_json_from_s3.py",PythonVersion="3" --connections Connections=dev_etl_recon,redshift-test --default-arguments=--extra-py-files='"s3://bucket_name/Output/lib/cffi-1.14.3-2-cp36-cp36m-manylinux1_x86_64.whl","s3://bucket_name/Output/lib/cryptography-3.1-2-cp35-abi3-manylinux2010_x86_64.whl","s3://bucket_name/Output/lib/pycparser-2.20-2-py2.py3-none-any.whl"'
