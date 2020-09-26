@@ -1,0 +1,53 @@
+import boto3
+client = boto3.client('glue')
+job_name = 'python-redshift-test12'
+description = 'for testing'
+role = 'AWSGlueServiceRole-Glueuser'
+command = {
+        'Name': 'pythonshell',
+        'ScriptLocation': 's3://bucket_name/Refined/read_json_from_s3.py',
+        'PythonVersion': '3'
+    }
+
+default_arg = {
+        '--extra-py-files': "s3://bucket_name/Output/lib/cffi-1.14.3-2-cp36-cp36m-manylinux1_x86_64.whl"+","+"s3://bucket_name/Output/lib/cryptography-3.1-2-cp35-abi3-manylinux2010_x86_64.whl"+","+"s3://bucket_name/Output/lib/pycparser-2.20-2-py2.py3-none-any.whl",
+        'extra_key':'new_value'
+    }
+connection = {
+        'Connections': [
+            'dev_etl_recon',
+            'redshift-test',
+        ]
+    }
+tag ={
+        'pub-dev': '12356'
+    }
+max_exec ={
+        'MaxConcurrentRuns': 2
+    }
+
+def create_glue_pythonshell_job(job_name,description,role,command,default_arg,connection,tag,max_exec):
+    response = client.create_job(
+        Name=job_name,
+        Description=description,
+        Role=role,
+        ExecutionProperty=max_exec,
+        Command=command,
+        DefaultArguments=default_arg,
+
+        Connections=connection,
+        Timeout=123,
+        MaxCapacity=0.0625,
+        Tags=tag,
+        NotificationProperty={
+            'NotifyDelayAfter': 123
+        }
+    )
+
+    print(response)
+
+job_name_list = ['python-redshift-test12','python-redshift-test1','python-redshift-test121']
+
+for job_name in job_name_list:
+    create_glue_pythonshell_job(job_name,description,role,command,default_arg,connection,tag,max_exec)
+    
