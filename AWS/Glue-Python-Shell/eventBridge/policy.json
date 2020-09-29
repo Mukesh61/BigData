@@ -1,0 +1,46 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "events:TagResource",
+                "events:DeleteRule",
+                "events:PutTargets",
+                "events:DescribeRule",
+                "events:EnableRule",
+                "events:PutRule",
+                "events:RemoveTargets",
+                "events:ListTargetsByRule",
+                "events:UntagResource",
+                "events:DisableRule"
+            ],
+            "Resource": [
+                "*",
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "events:PutPartnerEvents",
+                "events:ListRuleNamesByTarget",
+                "events:ListRules",
+                "events:TestEventPattern"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/*",
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": "events.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
